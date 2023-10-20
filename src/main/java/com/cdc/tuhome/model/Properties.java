@@ -24,7 +24,6 @@ public class Properties implements Serializable {
     @Column(name = "address", nullable = false)
     private String address;
 
-//    TODO: fix to make a dropdown menu
     @Column(name = "propertyType", nullable = false)
     private String propertyType;
 
@@ -37,5 +36,8 @@ public class Properties implements Serializable {
 
     @Column(name = "availabilityStatus", nullable = false)
     private Boolean availabilityStatus;
+
+    @OneToOne(mappedBy = "property", cascade = CascadeType.ALL)
+    private Inventory inventory;
 
 }

@@ -31,5 +31,5 @@ public class InventoryItem implements Serializable {
     private Integer quantity;
 
     @Column(name = "value", nullable = false)
-    private double value;
+    private Double value;
 }

@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -20,7 +22,10 @@ public class Inventory implements Serializable {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "propertyId", referencedColumnName = "id", nullable = false)
     private Properties property;
+
+    @OneToMany(mappedBy = "inventory", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<InventoryItem> items = new ArrayList<>();
 }
