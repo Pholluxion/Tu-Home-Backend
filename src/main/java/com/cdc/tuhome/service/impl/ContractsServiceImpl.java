@@ -53,19 +53,19 @@ public class ContractsServiceImpl implements IContractsService {
         Contracts existingContract = contractsRepository.findById(id).orElse(null);
         if (existingContract != null) {
             
-            Properties property = propertiesMapper.toProperties(updatedContract.getProperty());
-            Users user = usersMapper.toUsers(updatedContract.getUserId());
+            //Properties property = propertiesMapper.toProperties(updatedContract.getProperty());
+            //Users user = usersMapper.toUsers(updatedContract.getUserId());
             
             existingContract.setAdmineamount(updatedContract.getAdmineamount());
             existingContract.setEnddate(updatedContract.getEnddate());
             existingContract.setIncludeadmin(updatedContract.getIncludeadmin());
             existingContract.setIncludeservices(updatedContract.getIncludeservices());
             
-            existingContract.setProperty(property);
+            //existingContract.setProperty(property);
             existingContract.setRentalamount(updatedContract.getRentalamount());
             existingContract.setServiceamount(updatedContract.getServiceamount());
             existingContract.setStartdate(updatedContract.getStartdate());
-            existingContract.setUserId(user);
+            //existingContract.setUserId(user);
             
             existingContract = contractsRepository.save(existingContract);
             
