@@ -15,12 +15,12 @@ import java.util.stream.Collectors;
 @Service
 public class PropertiesServiceImpl implements IPropertiesService {
     private IPropertiesRepository propertiesRepository;
-    
+
     @Autowired
     public void setPropertyRepository (IPropertiesRepository propertiesRepository) {
         this.propertiesRepository = propertiesRepository;
     }
-    
+
     @Override
     public PropertiesDTO createProperty(PropertiesDTO property) {
         Properties newProperty = PropertiesMapper.INSTANCE.toProperties(property);
@@ -41,18 +41,18 @@ public class PropertiesServiceImpl implements IPropertiesService {
     }
 
     @Override
-    public PropertiesDTO updateProperty(Long id, PropertiesDTO property) {
+    public PropertiesDTO updateProperty(Long id, PropertiesDTO updatedProperty) {
         Properties existingProperty = propertiesRepository.findById(id).orElse(null);
         if (existingProperty != null) {
-            existingProperty.setAddress(existingProperty.getAddress());
-            existingProperty.setAvailabilityDate(existingProperty.getAvailabilityDate());
-            existingProperty.setAvailabilityStatus(existingProperty.getAvailabilityStatus());
-            existingProperty.setDescription(existingProperty.getDescription());
-            existingProperty.setInventory(existingProperty.getInventory());
-            existingProperty.setPropertyType(existingProperty.getPropertyType());
-        
+            existingProperty.setAddress(updatedProperty.getAddress());
+            existingProperty.setAvailabilityDate(updatedProperty.getAvailabilityDate());
+            existingProperty.setAvailabilityStatus(updatedProperty.getAvailabilityStatus());
+            existingProperty.setDescription(updatedProperty.getDescription());
+            //existingProperty.setInventory(updatedProperty.getInventory());
+            existingProperty.setPropertyType(updatedProperty.getPropertyType());
+
             existingProperty = propertiesRepository.save(existingProperty);
-            
+
             return PropertiesMapper.INSTANCE.toPropertiesDTO(existingProperty);
         } else {
             return null;
