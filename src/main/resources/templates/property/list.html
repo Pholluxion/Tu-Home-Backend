@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+    <head>
+        <title th:text="#{property.list.headline}" />
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <div class="d-flex flex-wrap mb-4">
+                <h1 th:text="#{property.list.headline}" class="flex-grow-1" />
+                <div>
+                    <a th:href="@{/properties/add}" th:text="#{property.list.createNew}" class="btn btn-primary ms-2" />
+                </div>
+            </div>
+            <div th:if="${properties.empty}" th:text="#{property.list.empty}" />
+            <div th:if="${!properties.empty}" class="table-responsive">
+                <table class="table table-striped table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th th:text="#{property.id.label}" scope="col" />
+                            <th th:text="#{property.name.label}" scope="col" />
+                            <th th:text="#{property.address.label}" scope="col" />
+                            <th th:text="#{property.price.label}" scope="col" />
+                            <th th:text="#{property.squareFeet.label}" scope="col" />
+                            <th th:text="#{property.bedrooms.label}" scope="col" />
+                            <th th:text="#{property.bathrooms.label}" scope="col" />
+                            <th th:text="#{property.garage.label}" scope="col" />
+                            <th><!-- --></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="property : ${properties}">
+                            <td th:text="${property.id}" />
+                            <td th:text="${property.name}" />
+                            <td th:text="${property.address}" />
+                            <td th:text="${property.price}" />
+                            <td th:text="${property.squareFeet}" />
+                            <td th:text="${property.bedrooms}" />
+                            <td th:text="${property.bathrooms}" />
+                            <td th:text="${property.garage}" />
+                            <td>
+                                <div class="float-end text-nowrap">
+                                    <a th:href="@{/properties/edit/{id}(id=${property.id})}" th:text="#{property.list.edit}" class="btn btn-sm btn-secondary" />
+                                    <form th:action="@{/properties/delete/{id}(id=${property.id})}"
+                                            th:data-confirm-message="#{delete.confirm}" method="post" class="js-submit-confirm d-inline">
+                                        <button th:text="#{property.list.delete}" type="submit" class="btn btn-sm btn-secondary" />
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>
