@@ -3,15 +3,15 @@ package com.cdc.tuhome.controller;
 import com.cdc.tuhome.dto.PropertiesDTO;
 import com.cdc.tuhome.service.interfaces.IPropertiesService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
-
-@RestController
+@Controller
 @RequestMapping("/properties")
 public class PropertiesController {
     private IPropertiesService propertiesService;
@@ -20,36 +20,74 @@ public class PropertiesController {
     public void setPropertiesService(IPropertiesService propertyService) {
         this.propertiesService = propertyService; 
     }
-    
-    @PostMapping("/create")
-    public ResponseEntity<PropertiesDTO> createProperty(@RequestBody PropertiesDTO propertyDTO) {
+
+    @GetMapping("/view/list")
+    public String getProperties(Model model) {
+        List<PropertiesDTO> prop = propertiesService.getProperties();
+        model.addAttribute("properties", prop);
+        return "properties/showAll";
+    }
+
+    @GetMapping("/view/create")
+    public String create() {
+        return "properties/create";
+    }
+
+    @GetMapping("/view/update/{id}")
+    public String update(@PathVariable Long id, Model model) {
+        PropertiesDTO prop = propertiesService.getPropertyById(id);
+        model.addAttribute("property", prop);
+        return "properties/update";
+    }
+
+    @PostMapping("/update")
+    public String updateProperty(
+            @RequestParam Long id,
+            @RequestParam String address,
+            @RequestParam String propertyType,
+            @RequestParam String description,
+            @RequestParam Date availabilityDate,
+            @RequestParam Boolean availabilityStatus
+    ) {
+        PropertiesDTO propertyDTO = new PropertiesDTO();
+
+        propertyDTO.setId(id);
+        propertyDTO.setPropertyType(propertyType);
+        propertyDTO.setAddress(address);
+        propertyDTO.setDescription(description);
+        propertyDTO.setAvailabilityDate(availabilityDate);
+        propertyDTO.setAvailabilityStatus(availabilityStatus);
+
+        PropertiesDTO updatedProperty = propertiesService.updateProperty(id, propertyDTO);
+
+        return "redirect:/properties/view/list";
+    }
+
+    @PostMapping()
+    public String createProperty(
+            @RequestParam String address,
+            @RequestParam String propertyType,
+            @RequestParam String description,
+            @RequestParam Date availabilityDate,
+            @RequestParam Boolean availabilityStatus
+    ) {
+        PropertiesDTO propertyDTO = new PropertiesDTO();
+
+        propertyDTO.setPropertyType(propertyType);
+        propertyDTO.setAddress(address);
+        propertyDTO.setDescription(description);
+        propertyDTO.setAvailabilityDate(availabilityDate);
+        propertyDTO.setAvailabilityStatus(availabilityStatus);
+
         PropertiesDTO createdProperty = propertiesService.createProperty(propertyDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdProperty);
+        return "redirect:/properties/view/list";
     }
-    
-    @GetMapping
-    public ResponseEntity<List<PropertiesDTO>> getProperties() {
-        return ResponseEntity.ok(propertiesService.getProperties());
-    }
-    
-    @GetMapping("/{id}")
-    public ResponseEntity<PropertiesDTO> getPropertyById(@PathVariable Long id) {
-        PropertiesDTO propertyDTO = this.propertiesService.getPropertyById(id);
-        return ResponseEntity.ok(propertyDTO);
-    }
-    
-    @PutMapping("/{id}")
-    public ResponseEntity<PropertiesDTO> updateProperty(@PathVariable Long id, @RequestBody PropertiesDTO property) {
-        PropertiesDTO updatedProperty = propertiesService.updateProperty(id, property);
-        if (updatedProperty != null) {
-            return ResponseEntity.ok(updatedProperty);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-    
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> deleteProperty(@PathVariable Long id) {
-        return ResponseEntity.ok(propertiesService.deleteProperty(id));
+
+
+
+    @GetMapping("/delete/{id}")
+    public String deleteProperty(@PathVariable Long id) {
+        propertiesService.deleteProperty(id);
+        return "redirect:/properties/view/list";
     }
 }
