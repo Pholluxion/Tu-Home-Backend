@@ -9,7 +9,7 @@
             <div class="d-flex flex-wrap mb-4">
                 <h1 th:text="#{documentType.list.headline}" class="flex-grow-1" />
                 <div>
-                    <a th:href="@{/documentTypes/add}" th:text="#{documentType.list.createNew}" class="btn btn-primary ms-2" />
+                    <a th:href="@{/documentTypes/add}" th:text="#{documentType.list.createNew}" class="btn btn-success ms-2" />
                 </div>
             </div>
             <div th:if="${documentTypes.empty}" th:text="#{documentType.list.empty}" />
@@ -32,10 +32,10 @@
                             <td th:text="${documentType.description}" />
                             <td>
                                 <div class="float-end text-nowrap">
-                                    <a th:href="@{/documentTypes/edit/{id}(id=${documentType.id})}" th:text="#{documentType.list.edit}" class="btn btn-sm btn-secondary" />
+                                    <a th:href="@{/documentTypes/edit/{id}(id=${documentType.id})}" th:text="#{documentType.list.edit}" class="btn btn-sm btn-warning" />
                                     <form th:action="@{/documentTypes/delete/{id}(id=${documentType.id})}"
                                             th:data-confirm-message="#{delete.confirm}" method="post" class="js-submit-confirm d-inline">
-                                        <button th:text="#{documentType.list.delete}" type="submit" class="btn btn-sm btn-secondary" />
+                                        <button th:text="#{documentType.list.delete}" type="submit" class="btn btn-sm btn-danger" />
                                     </form>
                                 </div>
                             </td>

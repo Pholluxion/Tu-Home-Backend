@@ -9,7 +9,7 @@
             <div class="d-flex flex-wrap mb-4">
                 <h1 th:text="#{user.list.headline}" class="flex-grow-1" />
                 <div>
-                    <a th:href="@{/users/add}" th:text="#{user.list.createNew}" class="btn btn-primary ms-2" />
+                    <a th:href="@{/users/add}" th:text="#{user.list.createNew}" class="btn btn-success ms-2" />
                 </div>
             </div>
             <div th:if="${users.empty}" th:text="#{user.list.empty}" />
@@ -38,10 +38,10 @@
                             <td th:text="${user.documentType}" />
                             <td>
                                 <div class="float-end text-nowrap">
-                                    <a th:href="@{/users/edit/{id}(id=${user.id})}" th:text="#{user.list.edit}" class="btn btn-sm btn-secondary" />
+                                    <a th:href="@{/users/edit/{id}(id=${user.id})}" th:text="#{user.list.edit}" class="btn btn-sm btn-warning" />
                                     <form th:action="@{/users/delete/{id}(id=${user.id})}"
                                             th:data-confirm-message="#{delete.confirm}" method="post" class="js-submit-confirm d-inline">
-                                        <button th:text="#{user.list.delete}" type="submit" class="btn btn-sm btn-secondary" />
+                                        <button th:text="#{user.list.delete}" type="submit" class="btn btn-sm btn-danger" />
                                     </form>
                                 </div>
                             </td>

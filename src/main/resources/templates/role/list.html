@@ -9,7 +9,7 @@
             <div class="d-flex flex-wrap mb-4">
                 <h1 th:text="#{role.list.headline}" class="flex-grow-1" />
                 <div>
-                    <a th:href="@{/roles/add}" th:text="#{role.list.createNew}" class="btn btn-primary ms-2" />
+                    <a th:href="@{/roles/add}" th:text="#{role.list.createNew}" class="btn btn-success ms-2" />
                 </div>
             </div>
             <div th:if="${roles.empty}" th:text="#{role.list.empty}" />
@@ -30,10 +30,10 @@
                             <td th:text="${role.description}" />
                             <td>
                                 <div class="float-end text-nowrap">
-                                    <a th:href="@{/roles/edit/{id}(id=${role.id})}" th:text="#{role.list.edit}" class="btn btn-sm btn-secondary" />
+                                    <a th:href="@{/roles/edit/{id}(id=${role.id})}" th:text="#{role.list.edit}" class="btn btn-sm btn-warning" />
                                     <form th:action="@{/roles/delete/{id}(id=${role.id})}"
                                             th:data-confirm-message="#{delete.confirm}" method="post" class="js-submit-confirm d-inline">
-                                        <button th:text="#{role.list.delete}" type="submit" class="btn btn-sm btn-secondary" />
+                                        <button th:text="#{role.list.delete}" type="submit" class="btn btn-sm btn-danger" />
                                     </form>
                                 </div>
                             </td>

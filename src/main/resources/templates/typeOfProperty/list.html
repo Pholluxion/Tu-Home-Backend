@@ -9,7 +9,7 @@
             <div class="d-flex flex-wrap mb-4">
                 <h1 th:text="#{typeOfProperty.list.headline}" class="flex-grow-1" />
                 <div>
-                    <a th:href="@{/typeOfProperties/add}" th:text="#{typeOfProperty.list.createNew}" class="btn btn-primary ms-2" />
+                    <a th:href="@{/typeOfProperties/add}" th:text="#{typeOfProperty.list.createNew}" class="btn btn-success ms-2" />
                 </div>
             </div>
             <div th:if="${typeOfProperties.empty}" th:text="#{typeOfProperty.list.empty}" />
@@ -30,10 +30,10 @@
                             <td th:text="${typeOfProperty.description}" />
                             <td>
                                 <div class="float-end text-nowrap">
-                                    <a th:href="@{/typeOfProperties/edit/{id}(id=${typeOfProperty.id})}" th:text="#{typeOfProperty.list.edit}" class="btn btn-sm btn-secondary" />
+                                    <a th:href="@{/typeOfProperties/edit/{id}(id=${typeOfProperty.id})}" th:text="#{typeOfProperty.list.edit}" class="btn btn-sm btn-warning" />
                                     <form th:action="@{/typeOfProperties/delete/{id}(id=${typeOfProperty.id})}"
                                             th:data-confirm-message="#{delete.confirm}" method="post" class="js-submit-confirm d-inline">
-                                        <button th:text="#{typeOfProperty.list.delete}" type="submit" class="btn btn-sm btn-secondary" />
+                                        <button th:text="#{typeOfProperty.list.delete}" type="submit" class="btn btn-sm btn-danger" />
                                     </form>
                                 </div>
                             </td>

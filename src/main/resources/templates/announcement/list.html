@@ -9,7 +9,7 @@
             <div class="d-flex flex-wrap mb-4">
                 <h1 th:text="#{announcement.list.headline}" class="flex-grow-1" />
                 <div>
-                    <a th:href="@{/announcements/add}" th:text="#{announcement.list.createNew}" class="btn btn-primary ms-2" />
+                    <a th:href="@{/announcements/add}" th:text="#{announcement.list.createNew}" class="btn btn-success ms-2" />
                 </div>
             </div>
             <div th:if="${announcements.empty}" th:text="#{announcement.list.empty}" />
@@ -40,10 +40,10 @@
                             <td th:text="${announcement.property}" />
                             <td>
                                 <div class="float-end text-nowrap">
-                                    <a th:href="@{/announcements/edit/{id}(id=${announcement.id})}" th:text="#{announcement.list.edit}" class="btn btn-sm btn-secondary" />
+                                    <a th:href="@{/announcements/edit/{id}(id=${announcement.id})}" th:text="#{announcement.list.edit}" class="btn btn-sm btn-warning" />
                                     <form th:action="@{/announcements/delete/{id}(id=${announcement.id})}"
                                             th:data-confirm-message="#{delete.confirm}" method="post" class="js-submit-confirm d-inline">
-                                        <button th:text="#{announcement.list.delete}" type="submit" class="btn btn-sm btn-secondary" />
+                                        <button th:text="#{announcement.list.delete}" type="submit" class="btn btn-sm btn-danger" />
                                     </form>
                                 </div>
                             </td>

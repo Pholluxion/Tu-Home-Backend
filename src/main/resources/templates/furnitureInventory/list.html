@@ -9,7 +9,7 @@
             <div class="d-flex flex-wrap mb-4">
                 <h1 th:text="#{furnitureInventory.list.headline}" class="flex-grow-1" />
                 <div>
-                    <a th:href="@{/furnitureInventories/add}" th:text="#{furnitureInventory.list.createNew}" class="btn btn-primary ms-2" />
+                    <a th:href="@{/furnitureInventories/add}" th:text="#{furnitureInventory.list.createNew}" class="btn btn-success ms-2" />
                 </div>
             </div>
             <div th:if="${furnitureInventories.empty}" th:text="#{furnitureInventory.list.empty}" />
@@ -34,10 +34,10 @@
                             <td th:text="${furnitureInventory.condition}" />
                             <td>
                                 <div class="float-end text-nowrap">
-                                    <a th:href="@{/furnitureInventories/edit/{id}(id=${furnitureInventory.id})}" th:text="#{furnitureInventory.list.edit}" class="btn btn-sm btn-secondary" />
+                                    <a th:href="@{/furnitureInventories/edit/{id}(id=${furnitureInventory.id})}" th:text="#{furnitureInventory.list.edit}" class="btn btn-sm btn-warning" />
                                     <form th:action="@{/furnitureInventories/delete/{id}(id=${furnitureInventory.id})}"
                                             th:data-confirm-message="#{delete.confirm}" method="post" class="js-submit-confirm d-inline">
-                                        <button th:text="#{furnitureInventory.list.delete}" type="submit" class="btn btn-sm btn-secondary" />
+                                        <button th:text="#{furnitureInventory.list.delete}" type="submit" class="btn btn-sm btn-danger" />
                                     </form>
                                 </div>
                             </td>
