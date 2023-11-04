@@ -12,8 +12,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 
 @Configuration
-@EntityScan("com.phollux.tuhome.domain")
-@EnableJpaRepositories("com.phollux.tuhome.repos")
+@EntityScan("com.phollux.tuhome")
+@EnableJpaRepositories("com.phollux.tuhome")
 @EnableTransactionManagement
 @EnableJpaAuditing(dateTimeProviderRef = "auditingDateTimeProvider")
 public class DomainConfig {

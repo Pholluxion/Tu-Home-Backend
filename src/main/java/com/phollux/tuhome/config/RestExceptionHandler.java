@@ -7,16 +7,24 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.server.ResponseStatusException;
 
 
 @RestControllerAdvice(annotations = RestController.class)
 public class RestExceptionHandler {
+
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public ResponseEntity<String> handleMaxSizeException(MaxUploadSizeExceededException exc) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body("No se puede cargar. El archivo es demasiado grande!");
+    }
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFound(final NotFoundException exception) {
@@ -25,6 +33,14 @@ public class RestExceptionHandler {
         errorResponse.setException(exception.getClass().getSimpleName());
         errorResponse.setMessage(exception.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ErrorResponse> handleUnauthorized(final AccessDeniedException exception) {
+        final ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setHttpStatus(HttpStatus.UNAUTHORIZED.value());
+        errorResponse.setException(exception.getClass().getSimpleName());
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
