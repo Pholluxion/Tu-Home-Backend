@@ -49,7 +49,7 @@ public class JwtSecurityConfig {
     public SecurityFilterChain jwtFilterChain(final HttpSecurity http) throws Exception {
 
 
-        return http.cors(withDefaults())
+        return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
