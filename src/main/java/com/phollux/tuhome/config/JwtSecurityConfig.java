@@ -33,7 +33,6 @@ public class JwtSecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        // please note: existing hashes must contain {bcrypt} prefix
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
@@ -49,7 +48,7 @@ public class JwtSecurityConfig {
     public SecurityFilterChain jwtFilterChain(final HttpSecurity http) throws Exception {
 
 
-        return http.cors(withDefaults())
+        return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
