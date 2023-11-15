@@ -76,6 +76,7 @@ public class Property {
     @JoinColumn(name = "furniture_inventory_id", nullable = true)
     private FurnitureInventory furnitureInventory;
 
+
     @CreatedDate
     @Column(nullable = false, updatable = false)
     private OffsetDateTime dateCreated;
