@@ -43,7 +43,7 @@ public class UserResource {
         return ResponseEntity.ok(userService.get(id));
     }
 
-    @GetMapping("/{email}")
+    @GetMapping("/findByEmail/{email}")
     public ResponseEntity<UserDTO> getUserByEmail(@PathVariable(name = "email") final String email) {
         return ResponseEntity.ok(userService.findByEmail(email));
     }
