@@ -1,13 +1,5 @@
-FROM eclipse-temurin:20-jdk AS build
-COPY . /app
-WORKDIR /app
-RUN ./mvnw install -DskipTests
-RUN mv -f target/*.jar app.jar
-
-FROM eclipse-temurin:20-jre
-ARG PORT
-ENV PORT=${PORT}
-COPY --from=build /app/app.jar .
-RUN useradd runtime
-USER runtime
+FROM openjdk:17-jdk-alpine
+RUN apk update && apk add --no-cache bash
+ARG JAR_FILE=*.jar
+COPY ${JAR_FILE} app.jar
 ENTRYPOINT [ "java", "-Dserver.port=${PORT}", "-jar", "app.jar" ]

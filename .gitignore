@@ -22,7 +22,7 @@ node/
 *.iws
 *.iml
 *.ipr
-
+*.pem
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
