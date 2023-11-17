@@ -11,7 +11,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
+
+import java.util.List;
 import java.util.UUID;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
@@ -66,6 +69,11 @@ public class NetworkImageResource {
             @RequestParam(required = false, name = "filter") final String filter,
             @Parameter(hidden = true) @SortDefault(sort = "id") @PageableDefault(size = 20) final Pageable pageable) {
         return ResponseEntity.ok(networkImageService.findAll(filter, pageable));
+    }
+
+    @GetMapping("/property/{id}")
+    public ResponseEntity<List<NetworkImageDTO>> getAllNetworkImagesByPropertyId(@PathVariable(name = "id") final Integer id) {
+        return ResponseEntity.ok(networkImageService.findAllByPropertyId(id));
     }
 
     @GetMapping("/{id}")

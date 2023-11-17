@@ -7,6 +7,9 @@ import com.phollux.tuhome.network_image.repos.NetworkImageRepository;
 import com.phollux.tuhome.property.domain.Property;
 import com.phollux.tuhome.property.repos.PropertyRepository;
 import com.phollux.tuhome.util.NotFoundException;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,7 +36,7 @@ public class NetworkImageServiceImpl implements NetworkImageService {
             try {
                 uuidFilter = UUID.fromString(filter);
             } catch (final IllegalArgumentException illegalArgumentException) {
-                // keep null - no parseable input
+                // ignore
             }
             page = networkImageRepository.findAllById(uuidFilter, pageable);
         } else {
@@ -45,6 +48,22 @@ public class NetworkImageServiceImpl implements NetworkImageService {
                 .toList(),
                 page.getTotalElements(), pageable);
     }
+
+    @Override
+    public List<NetworkImageDTO> findAllByPropertyId(Integer propertyId) {
+
+        List<NetworkImageDTO> networkImageDTOList = new ArrayList<>();
+
+        if (propertyId != null) {
+            List<NetworkImage> networkImageList = networkImageRepository.findAllByPropertyId(propertyId);
+            networkImageDTOList = networkImageList.stream()
+                .map(networkImage -> mapToDTO(networkImage, new NetworkImageDTO()))
+                .toList();
+        }
+
+        return networkImageDTOList;
+    }
+
 
     @Override
     public NetworkImageDTO get(final UUID id) {

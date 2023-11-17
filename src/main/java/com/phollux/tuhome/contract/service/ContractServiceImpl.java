@@ -28,6 +28,22 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
+    public List<ContractDTO> findByUserId(Long tenantId) {
+        final List<Contract> contracts = contractRepository.findByUserId(tenantId);
+        return contracts.stream()
+                .map(contract -> mapToDTO(contract, new ContractDTO()))
+                .toList();
+    }
+
+    @Override
+    public List<ContractDTO> findByPropertyId(Integer landlordId) {
+        final List<Contract> contracts = contractRepository.findByPropertyId(landlordId);
+        return contracts.stream()
+                .map(contract -> mapToDTO(contract, new ContractDTO()))
+                .toList();
+    }
+
+    @Override
     public List<ContractDTO> findAll() {
         final List<Contract> contracts = contractRepository.findAll(Sort.by("id"));
         return contracts.stream()
@@ -69,8 +85,8 @@ public class ContractServiceImpl implements ContractService {
         contractDTO.setRent(contract.getRent());
         contractDTO.setDeposit(contract.getDeposit());
         contractDTO.setStatus(contract.getStatus());
-        contractDTO.setTenant(contract.getTenant() == null ? null : contract.getTenant().getId());
-        contractDTO.setLandlord(contract.getLandlord() == null ? null : contract.getLandlord().getId());
+        contractDTO.setUserId(contract.getUser() == null ? null : contract.getUser().getId());
+        contractDTO.setPropertyId(contract.getProperty() == null ? null : contract.getProperty().getId());
         return contractDTO;
     }
 
@@ -80,12 +96,12 @@ public class ContractServiceImpl implements ContractService {
         contract.setRent(contractDTO.getRent());
         contract.setDeposit(contractDTO.getDeposit());
         contract.setStatus(contractDTO.getStatus());
-        final User tenant = contractDTO.getTenant() == null ? null : userRepository.findById(contractDTO.getTenant())
+        final User tenant = contractDTO.getUserId() == null ? null : userRepository.findById(contractDTO.getUserId())
                 .orElseThrow(() -> new NotFoundException("tenant not found"));
-        contract.setTenant(tenant);
-        final Property landlord = contractDTO.getLandlord() == null ? null : propertyRepository.findById(contractDTO.getLandlord())
+        contract.setUser(tenant);
+        final Property landlord = contractDTO.getPropertyId() == null ? null : propertyRepository.findById(contractDTO.getPropertyId())
                 .orElseThrow(() -> new NotFoundException("landlord not found"));
-        contract.setLandlord(landlord);
+        contract.setProperty(landlord);
         return contract;
     }
 

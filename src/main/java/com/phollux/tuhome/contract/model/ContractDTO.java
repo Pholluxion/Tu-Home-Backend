@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.OffsetDateTime;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -41,9 +41,9 @@ public class ContractDTO {
     private String status;
 
     @NotNull
-    private Long tenant;
+    private Long userId;
 
     @NotNull
-    private Integer landlord;
+    private Integer propertyId;
 
 }

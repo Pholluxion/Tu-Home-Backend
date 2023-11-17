@@ -38,6 +38,16 @@ public class ContractResource {
         return ResponseEntity.ok(contractService.findAll());
     }
 
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<ContractDTO>> getAllContractsByUserId(@PathVariable(name = "userId") final Long tenantId) {
+        return ResponseEntity.ok(contractService.findByUserId(tenantId));
+    }
+
+    @GetMapping("/property/{propertyId}")
+    public ResponseEntity<List<ContractDTO>> getAllContractsByPropertyId(@PathVariable(name = "propertyId") final Integer landlordId) {
+        return ResponseEntity.ok(contractService.findByPropertyId(landlordId));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ContractDTO> getContract(@PathVariable(name = "id") final Integer id) {
         return ResponseEntity.ok(contractService.get(id));

@@ -2,6 +2,8 @@ package com.phollux.tuhome.network_image.service;
 
 import com.phollux.tuhome.model.SimplePage;
 import com.phollux.tuhome.network_image.model.NetworkImageDTO;
+
+import java.util.List;
 import java.util.UUID;
 import org.springframework.data.domain.Pageable;
 
@@ -9,6 +11,8 @@ import org.springframework.data.domain.Pageable;
 public interface NetworkImageService {
 
     SimplePage<NetworkImageDTO> findAll(String filter, Pageable pageable);
+
+    List<NetworkImageDTO> findAllByPropertyId(Integer propertyId);
 
     NetworkImageDTO get(UUID id);
 

@@ -59,11 +59,11 @@ public class Contract {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tenant_id", nullable = false)
-    private User tenant;
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "landlord_id", nullable = false)
-    private Property landlord;
+    private Property property;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
