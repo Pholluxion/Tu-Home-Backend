@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Value;
 
 
 @Getter
@@ -29,5 +30,8 @@ public class RegistrationRequest {
     @NotNull
     @Size(max = 100)
     private String documentNumber;
+
+    @Value("10000")
+    private long documentType;
 
 }

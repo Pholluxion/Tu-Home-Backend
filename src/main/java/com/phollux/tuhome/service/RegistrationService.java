@@ -1,5 +1,6 @@
 package com.phollux.tuhome.service;
 
+import com.phollux.tuhome.document_type.domain.DocumentType;
 import com.phollux.tuhome.document_type.repos.DocumentTypeRepository;
 import com.phollux.tuhome.model.RegistrationRequest;
 import com.phollux.tuhome.role.repos.RoleRepository;
@@ -10,6 +11,8 @@ import com.phollux.tuhome.util.UserRoles;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 
 @Service
@@ -52,7 +55,17 @@ public class RegistrationService {
             user.setRole(roleRepository.findByName(UserRoles.USER));
         }
         // assign default Document Type
-        user.setDocumentType(documentTypeRepository.findByName(DocumentTypes.CC));
+        if(registrationRequest.getDocumentType() == 0){
+            user.setDocumentType(documentTypeRepository.findByName(DocumentTypes.CC));
+        }else {
+            final long documentTypeId = registrationRequest.getDocumentType();
+            final Optional<DocumentType> documentType = documentTypeRepository.findById(documentTypeId);
+            if (documentType.isEmpty()) {
+                throw new IllegalArgumentException("Invalid document type: " + documentTypeId);
+            }
+            user.setDocumentType(documentType.get());
+        }
+
         userRepository.save(user);
     }
 
