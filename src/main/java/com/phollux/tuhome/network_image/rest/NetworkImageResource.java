@@ -35,7 +35,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/api/networkImages", produces = MediaType.APPLICATION_JSON_VALUE)
-@PreAuthorize("hasAuthority('" + UserRoles.ADMIN + "')")
 @SecurityRequirement(name = "bearer-jwt")
 public class NetworkImageResource {
 
@@ -84,6 +83,7 @@ public class NetworkImageResource {
 
     @PostMapping
     @ApiResponse(responseCode = "201")
+    @PreAuthorize("hasAuthority('" + UserRoles.ADMIN + "')")
     public ResponseEntity<UUID> createNetworkImage(
             @RequestBody @Valid final NetworkImageDTO networkImageDTO) {
         final UUID createdId = networkImageService.create(networkImageDTO);
@@ -91,6 +91,7 @@ public class NetworkImageResource {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('" + UserRoles.ADMIN + "')")
     public ResponseEntity<UUID> updateNetworkImage(@PathVariable(name = "id") final UUID id,
                                                    @RequestBody @Valid final NetworkImageDTO networkImageDTO) {
         networkImageService.update(id, networkImageDTO);
@@ -99,6 +100,7 @@ public class NetworkImageResource {
 
     @DeleteMapping("/{id}")
     @ApiResponse(responseCode = "204")
+    @PreAuthorize("hasAuthority('" + UserRoles.ADMIN + "')")
     public ResponseEntity<Void> deleteNetworkImage(@PathVariable(name = "id") final UUID id) {
         networkImageService.delete(id);
         return ResponseEntity.noContent().build();
