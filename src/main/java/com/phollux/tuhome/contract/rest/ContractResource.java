@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/api/contracts", produces = MediaType.APPLICATION_JSON_VALUE)
-@PreAuthorize("hasAuthority('" + UserRoles.ADMIN + "')")
 @SecurityRequirement(name = "bearer-jwt")
 public class ContractResource {
 
@@ -34,27 +33,32 @@ public class ContractResource {
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthority('" + UserRoles.ADMIN + "')")
     public ResponseEntity<List<ContractDTO>> getAllContracts() {
         return ResponseEntity.ok(contractService.findAll());
     }
 
     @GetMapping("/user/{userId}")
+    @PreAuthorize("hasAuthority('" + UserRoles.ADMIN + "') or hasAuthority('" + UserRoles.USER + "')")
     public ResponseEntity<List<ContractDTO>> getAllContractsByUserId(@PathVariable(name = "userId") final Long tenantId) {
         return ResponseEntity.ok(contractService.findByUserId(tenantId));
     }
 
     @GetMapping("/property/{propertyId}")
+    @PreAuthorize("hasAuthority('" + UserRoles.ADMIN + "') or hasAuthority('" + UserRoles.USER + "')")
     public ResponseEntity<List<ContractDTO>> getAllContractsByPropertyId(@PathVariable(name = "propertyId") final Integer landlordId) {
         return ResponseEntity.ok(contractService.findByPropertyId(landlordId));
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('" + UserRoles.ADMIN + "')")
     public ResponseEntity<ContractDTO> getContract(@PathVariable(name = "id") final Integer id) {
         return ResponseEntity.ok(contractService.get(id));
     }
 
     @PostMapping
     @ApiResponse(responseCode = "201")
+    @PreAuthorize("hasAuthority('" + UserRoles.ADMIN + "')")
     public ResponseEntity<Integer> createContract(
             @RequestBody @Valid final ContractDTO contractDTO) {
         final Integer createdId = contractService.create(contractDTO);
@@ -62,6 +66,7 @@ public class ContractResource {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('" + UserRoles.ADMIN + "')")
     public ResponseEntity<Integer> updateContract(@PathVariable(name = "id") final Integer id,
             @RequestBody @Valid final ContractDTO contractDTO) {
         contractService.update(id, contractDTO);
@@ -70,6 +75,7 @@ public class ContractResource {
 
     @DeleteMapping("/{id}")
     @ApiResponse(responseCode = "204")
+    @PreAuthorize("hasAuthority('" + UserRoles.ADMIN + "')")
     public ResponseEntity<Void> deleteContract(@PathVariable(name = "id") final Integer id) {
         contractService.delete(id);
         return ResponseEntity.noContent().build();
