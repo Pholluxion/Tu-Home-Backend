@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/api/properties", produces = MediaType.APPLICATION_JSON_VALUE)
-@PreAuthorize("hasAuthority('" + UserRoles.ADMIN + "')")
 @SecurityRequirement(name = "bearer-jwt")
 public class PropertyResource {
 
@@ -34,17 +33,20 @@ public class PropertyResource {
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthority('" + UserRoles.ADMIN + "')")
     public ResponseEntity<List<PropertyDTO>> getAllProperties() {
         return ResponseEntity.ok(propertyService.findAll());
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('" + UserRoles.ADMIN + "') or hasAuthority('" + UserRoles.USER + "')")
     public ResponseEntity<PropertyDTO> getProperty(@PathVariable(name = "id") final Integer id) {
         return ResponseEntity.ok(propertyService.get(id));
     }
 
     @PostMapping
     @ApiResponse(responseCode = "201")
+    @PreAuthorize("hasAuthority('" + UserRoles.ADMIN + "')")
     public ResponseEntity<Integer> createProperty(
             @RequestBody @Valid final PropertyDTO propertyDTO) {
         final Integer createdId = propertyService.create(propertyDTO);
@@ -52,6 +54,7 @@ public class PropertyResource {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('" + UserRoles.ADMIN + "')")
     public ResponseEntity<Integer> updateProperty(@PathVariable(name = "id") final Integer id,
             @RequestBody @Valid final PropertyDTO propertyDTO) {
         propertyService.update(id, propertyDTO);
@@ -60,6 +63,7 @@ public class PropertyResource {
 
     @DeleteMapping("/{id}")
     @ApiResponse(responseCode = "204")
+    @PreAuthorize("hasAuthority('" + UserRoles.ADMIN + "')")
     public ResponseEntity<Void> deleteProperty(@PathVariable(name = "id") final Integer id) {
         propertyService.delete(id);
         return ResponseEntity.noContent().build();
