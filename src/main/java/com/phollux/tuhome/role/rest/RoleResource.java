@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/api/roles", produces = MediaType.APPLICATION_JSON_VALUE)
-@PreAuthorize("hasAuthority('" + UserRoles.ADMIN + "')")
 @SecurityRequirement(name = "bearer-jwt")
 public class RoleResource {
 
@@ -34,23 +33,27 @@ public class RoleResource {
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthority('" + UserRoles.USER + "') or hasAuthority('" + UserRoles.ADMIN + "')")
     public ResponseEntity<List<RoleDTO>> getAllRoles() {
         return ResponseEntity.ok(roleService.findAll());
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('" + UserRoles.USER + "') or hasAuthority('" + UserRoles.ADMIN + "')")
     public ResponseEntity<RoleDTO> getRole(@PathVariable(name = "id") final Long id) {
         return ResponseEntity.ok(roleService.get(id));
     }
 
     @PostMapping
     @ApiResponse(responseCode = "201")
+    @PreAuthorize("hasAuthority('" + UserRoles.ADMIN + "')")
     public ResponseEntity<Long> createRole(@RequestBody @Valid final RoleDTO roleDTO) {
         final Long createdId = roleService.create(roleDTO);
         return new ResponseEntity<>(createdId, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('" + UserRoles.ADMIN + "')")
     public ResponseEntity<Long> updateRole(@PathVariable(name = "id") final Long id,
             @RequestBody @Valid final RoleDTO roleDTO) {
         roleService.update(id, roleDTO);
@@ -58,6 +61,7 @@ public class RoleResource {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('" + UserRoles.ADMIN + "')")
     @ApiResponse(responseCode = "204")
     public ResponseEntity<Void> deleteRole(@PathVariable(name = "id") final Long id) {
         roleService.delete(id);

@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/api/typeOfProperties", produces = MediaType.APPLICATION_JSON_VALUE)
-@PreAuthorize("hasAuthority('" + UserRoles.ADMIN + "')")
 @SecurityRequirement(name = "bearer-jwt")
 public class TypeOfPropertyResource {
 
@@ -34,11 +33,13 @@ public class TypeOfPropertyResource {
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthority('" + UserRoles.USER + "') or hasAuthority('" + UserRoles.ADMIN + "')")
     public ResponseEntity<List<TypeOfPropertyDTO>> getAllTypeOfProperties() {
         return ResponseEntity.ok(typeOfPropertyService.findAll());
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('" + UserRoles.USER + "') or hasAuthority('" + UserRoles.ADMIN + "')")
     public ResponseEntity<TypeOfPropertyDTO> getTypeOfProperty(
             @PathVariable(name = "id") final Integer id) {
         return ResponseEntity.ok(typeOfPropertyService.get(id));
@@ -46,6 +47,7 @@ public class TypeOfPropertyResource {
 
     @PostMapping
     @ApiResponse(responseCode = "201")
+    @PreAuthorize("hasAuthority('" + UserRoles.ADMIN + "')")
     public ResponseEntity<Integer> createTypeOfProperty(
             @RequestBody @Valid final TypeOfPropertyDTO typeOfPropertyDTO) {
         final Integer createdId = typeOfPropertyService.create(typeOfPropertyDTO);
@@ -53,6 +55,7 @@ public class TypeOfPropertyResource {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('" + UserRoles.ADMIN + "')")
     public ResponseEntity<Integer> updateTypeOfProperty(@PathVariable(name = "id") final Integer id,
             @RequestBody @Valid final TypeOfPropertyDTO typeOfPropertyDTO) {
         typeOfPropertyService.update(id, typeOfPropertyDTO);
@@ -61,6 +64,7 @@ public class TypeOfPropertyResource {
 
     @DeleteMapping("/{id}")
     @ApiResponse(responseCode = "204")
+    @PreAuthorize("hasAuthority('" + UserRoles.ADMIN + "')")
     public ResponseEntity<Void> deleteTypeOfProperty(@PathVariable(name = "id") final Integer id) {
         typeOfPropertyService.delete(id);
         return ResponseEntity.noContent().build();

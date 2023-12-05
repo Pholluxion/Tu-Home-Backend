@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/api/documentTypes", produces = MediaType.APPLICATION_JSON_VALUE)
-@PreAuthorize("hasAuthority('" + UserRoles.ADMIN + "')")
 @SecurityRequirement(name = "bearer-jwt")
 public class DocumentTypeResource {
 
@@ -34,11 +33,13 @@ public class DocumentTypeResource {
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthority('" + UserRoles.USER + "') or hasAuthority('" + UserRoles.ADMIN + "')")
     public ResponseEntity<List<DocumentTypeDTO>> getAllDocumentTypes() {
         return ResponseEntity.ok(documentTypeService.findAll());
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('" + UserRoles.USER + "') or hasAuthority('" + UserRoles.ADMIN + "')")
     public ResponseEntity<DocumentTypeDTO> getDocumentType(
             @PathVariable(name = "id") final Long id) {
         return ResponseEntity.ok(documentTypeService.get(id));
@@ -46,6 +47,7 @@ public class DocumentTypeResource {
 
     @PostMapping
     @ApiResponse(responseCode = "201")
+    @PreAuthorize("hasAuthority('" + UserRoles.ADMIN + "')")
     public ResponseEntity<Long> createDocumentType(
             @RequestBody @Valid final DocumentTypeDTO documentTypeDTO) {
         final Long createdId = documentTypeService.create(documentTypeDTO);
@@ -53,6 +55,7 @@ public class DocumentTypeResource {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('" + UserRoles.ADMIN + "')")
     public ResponseEntity<Long> updateDocumentType(@PathVariable(name = "id") final Long id,
             @RequestBody @Valid final DocumentTypeDTO documentTypeDTO) {
         documentTypeService.update(id, documentTypeDTO);
@@ -61,6 +64,7 @@ public class DocumentTypeResource {
 
     @DeleteMapping("/{id}")
     @ApiResponse(responseCode = "204")
+    @PreAuthorize("hasAuthority('" + UserRoles.ADMIN + "')")
     public ResponseEntity<Void> deleteDocumentType(@PathVariable(name = "id") final Long id) {
         documentTypeService.delete(id);
         return ResponseEntity.noContent().build();

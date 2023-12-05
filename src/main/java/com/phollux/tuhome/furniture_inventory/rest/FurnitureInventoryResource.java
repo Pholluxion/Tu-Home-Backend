@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/api/furnitureInventories", produces = MediaType.APPLICATION_JSON_VALUE)
-@PreAuthorize("hasAuthority('" + UserRoles.ADMIN + "')")
 @SecurityRequirement(name = "bearer-jwt")
 public class FurnitureInventoryResource {
 
@@ -34,11 +33,13 @@ public class FurnitureInventoryResource {
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthority('" + UserRoles.USER + "') or hasAuthority('" + UserRoles.ADMIN + "')")
     public ResponseEntity<List<FurnitureInventoryDTO>> getAllFurnitureInventories() {
         return ResponseEntity.ok(furnitureInventoryService.findAll());
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('" + UserRoles.USER + "') or hasAuthority('" + UserRoles.ADMIN + "')")
     public ResponseEntity<FurnitureInventoryDTO> getFurnitureInventory(
             @PathVariable(name = "id") final Integer id) {
         return ResponseEntity.ok(furnitureInventoryService.get(id));
@@ -46,6 +47,7 @@ public class FurnitureInventoryResource {
 
     @PostMapping
     @ApiResponse(responseCode = "201")
+    @PreAuthorize("hasAuthority('" + UserRoles.ADMIN + "')")
     public ResponseEntity<Integer> createFurnitureInventory(
             @RequestBody @Valid final FurnitureInventoryDTO furnitureInventoryDTO) {
         final Integer createdId = furnitureInventoryService.create(furnitureInventoryDTO);
@@ -53,6 +55,7 @@ public class FurnitureInventoryResource {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('" + UserRoles.ADMIN + "')")
     public ResponseEntity<Integer> updateFurnitureInventory(
             @PathVariable(name = "id") final Integer id,
             @RequestBody @Valid final FurnitureInventoryDTO furnitureInventoryDTO) {
@@ -62,6 +65,7 @@ public class FurnitureInventoryResource {
 
     @DeleteMapping("/{id}")
     @ApiResponse(responseCode = "204")
+    @PreAuthorize("hasAuthority('" + UserRoles.ADMIN + "')")
     public ResponseEntity<Void> deleteFurnitureInventory(
             @PathVariable(name = "id") final Integer id) {
         furnitureInventoryService.delete(id);

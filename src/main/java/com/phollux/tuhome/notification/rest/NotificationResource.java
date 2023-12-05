@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/api/notifications", produces = MediaType.APPLICATION_JSON_VALUE)
-@PreAuthorize("hasAuthority('" + UserRoles.USER + "')")
 public class NotificationResource {
 
     private final NotificationServiceImpl notificationService;
@@ -32,11 +31,13 @@ public class NotificationResource {
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthority('" + UserRoles.USER + "') or hasAuthority('" + UserRoles.ADMIN + "')")
     public ResponseEntity<List<NotificationDTO>> getAllNotifications() {
         return ResponseEntity.ok(notificationService.findAll());
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('" + UserRoles.USER + "') or hasAuthority('" + UserRoles.ADMIN + "')")
     public ResponseEntity<NotificationDTO> getNotification(
             @PathVariable(name = "id") final Long id) {
         return ResponseEntity.ok(notificationService.get(id));
@@ -44,6 +45,7 @@ public class NotificationResource {
 
     @PostMapping
     @ApiResponse(responseCode = "201")
+    @PreAuthorize("hasAuthority('" + UserRoles.USER + "') or hasAuthority('" + UserRoles.ADMIN + "')")
     public ResponseEntity<Long> createNotification(
             @RequestBody @Valid final NotificationDTO notificationDTO) {
         final Long createdId = notificationService.create(notificationDTO);
@@ -51,6 +53,7 @@ public class NotificationResource {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('" + UserRoles.ADMIN + "')")
     public ResponseEntity<Long> updateNotification(@PathVariable(name = "id") final Long id,
             @RequestBody @Valid final NotificationDTO notificationDTO) {
         notificationService.update(id, notificationDTO);
@@ -59,6 +62,7 @@ public class NotificationResource {
 
     @DeleteMapping("/{id}")
     @ApiResponse(responseCode = "204")
+    @PreAuthorize("hasAuthority('" + UserRoles.ADMIN + "')")
     public ResponseEntity<Void> deleteNotification(@PathVariable(name = "id") final Long id) {
         notificationService.delete(id);
         return ResponseEntity.noContent().build();
