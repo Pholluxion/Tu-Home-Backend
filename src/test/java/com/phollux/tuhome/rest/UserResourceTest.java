@@ -32,7 +32,7 @@ public class UserResourceTest extends BaseIT {
                         .header(HttpHeaders.AUTHORIZATION, bearerToken())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("Duis autem vel."));
+                .andExpect(jsonPath("$.name").value("John"));
     }
 
     @Test
@@ -75,7 +75,7 @@ public class UserResourceTest extends BaseIT {
                         .content(readResource("/requests/userDTORequest.json"))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
-        assertEquals("Nam liber tempor.", userRepository.findById(((long)1200)).get().getName());
+        assertEquals("Carlos Daniel", userRepository.findById(((long)1200)).get().getName());
         assertEquals(2, userRepository.count());
     }
 

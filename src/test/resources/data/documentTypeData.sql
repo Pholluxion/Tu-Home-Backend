@@ -7,9 +7,9 @@ INSERT INTO document_type (
     last_updated
 ) VALUES (
     1100,
-    'Duis autem vel.',
-    'Sed ut per',
-    'Duis autem vel.',
+    'Cedula Electronica',
+    'CC_DIG',
+    'TEST',
     '2023-09-02 16:30:00',
     '2023-09-02 16:30:00'
 );
@@ -23,9 +23,9 @@ INSERT INTO document_type (
     last_updated
 ) VALUES (
     1101,
-    'Ut wisi enim.',
-    'Lorem ipsu',
-    'Ut wisi enim.',
+    'Cédula',
+    'CC',
+    'TEST',
     '2023-09-03 16:30:00',
     '2023-09-03 16:30:00'
 );

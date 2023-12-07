@@ -39,7 +39,7 @@ public class RoleResourceTest extends BaseIT {
                         .header(HttpHeaders.AUTHORIZATION, bearerToken())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.description").value("Duis autem vel."));
+                .andExpect(jsonPath("$.description").value(""));
     }
 
     @Test
@@ -82,7 +82,7 @@ public class RoleResourceTest extends BaseIT {
                         .content(readResource("/requests/roleDTORequest.json"))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
-        assertEquals("Nam liber tempor.", roleRepository.findById(((long)1000)).get().getDescription());
+        assertEquals("Moderator role for the site", roleRepository.findById(((long)1000)).get().getDescription());
         assertEquals(2, roleRepository.count());
     }
 

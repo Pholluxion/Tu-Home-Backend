@@ -4,7 +4,7 @@ import com.phollux.tuhome.config.BaseIT;
 import org.junit.jupiter.api.Test;
 
 
-public class TuhomeApplicationTest extends BaseIT {
+public class TuHomeApplicationTest extends BaseIT {
 
     @Test
     void contextLoads() {

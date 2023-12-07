@@ -31,7 +31,7 @@ public class DocumentTypeResourceTest extends BaseIT {
                         .header(HttpHeaders.AUTHORIZATION, bearerToken())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("Duis autem vel."));
+                .andExpect(jsonPath("$.name").value("Cedula Electronica"));
     }
 
     @Test
@@ -74,7 +74,7 @@ public class DocumentTypeResourceTest extends BaseIT {
                         .content(readResource("/requests/documentTypeDTORequest.json"))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
-        assertEquals("Nam liber tempor.", documentTypeRepository.findById(((long)1100)).get().getName());
+        assertEquals("Pasaporte", documentTypeRepository.findById(((long)1100)).get().getName());
         assertEquals(2, documentTypeRepository.count());
     }
 

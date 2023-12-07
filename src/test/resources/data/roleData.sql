@@ -7,7 +7,7 @@ INSERT INTO role (
 ) VALUES (
     1000,
     'ADMIN',
-    'Duis autem vel.',
+    '',
     '2023-09-02 16:30:00',
     '2023-09-02 16:30:00'
 );
@@ -21,7 +21,7 @@ INSERT INTO role (
 ) VALUES (
     1001,
     'USER',
-    'Ut wisi enim.',
+    '',
     '2023-09-03 16:30:00',
     '2023-09-03 16:30:00'
 );
